@@ -12,7 +12,7 @@ class LogLevels(Enum):
 
 
 class LoggerIO(object):
-    def __init__(self, name: str, buffer: TextIO = sys.stdout):
+    def __init__(self, name: str = __name__, buffer: TextIO = sys.stdout):
         self.buffer = buffer
 
     def __new__(cls, *args, **kwargs):
@@ -33,8 +33,9 @@ class LoggerIO(object):
                 prefix = "[LOG]"
         self.buffer.mode = io_mode
         io = StringIO(f"{prefix} {message}\n")
+        
         self.buffer.write(io.read())
-        return LoggerIO(self.buffer)
+        return LoggerIO(buffer=self.buffer)
 
     def __repr__(self):
         return """logger.log('Instance created!', level=LogLevels.INFO)"""
